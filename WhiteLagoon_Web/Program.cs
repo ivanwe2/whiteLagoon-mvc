@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Configuration;
-using WhiteLagoon_Infrastructure;
-using WhiteLagoon_Infrastructure.Extensions;
+using WhiteLagoon.Infrastructure;
+using WhiteLagoon.Infrastructure.Extensions;
 
-namespace WhiteLagoon_Web
+namespace WhiteLagoon.Web
 {
     public class Program
     {

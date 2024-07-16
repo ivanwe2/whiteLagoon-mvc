@@ -7,9 +7,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using WhiteLagoon_Infrastructure.Data;
+using WhiteLagoon.Infrastructure.Data;
 
-namespace WhiteLagoon_Infrastructure.Extensions
+namespace WhiteLagoon.Infrastructure.Extensions
 {
     public static class DataServiceExtensions
     {

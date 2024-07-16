@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WhiteLagoon_Infrastructure.Data;
+using WhiteLagoon.Infrastructure.Data;
 
 #nullable disable
 
-namespace WhiteLagoon_Infrastructure.Migrations
+namespace WhiteLagoon.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20240710170924_SeedVillas")]

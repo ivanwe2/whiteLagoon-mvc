@@ -4,7 +4,7 @@
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace WhiteLagoon_Infrastructure.Migrations
+namespace WhiteLagoon.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class SeedVillas : Migration

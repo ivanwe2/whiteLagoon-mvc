@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using WhiteLagoon_Web.Models;
+using WhiteLagoon.Web.Models;
 
-namespace WhiteLagoon_Web.Controllers
+namespace WhiteLagoon.Web.Controllers
 {
     public class HomeController : Controller
     {

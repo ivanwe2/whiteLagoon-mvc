@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace WhiteLagoon_Infrastructure.Migrations
+namespace WhiteLagoon.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class AddVillasTable : Migration
