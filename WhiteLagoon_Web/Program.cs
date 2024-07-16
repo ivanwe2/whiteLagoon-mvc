@@ -1,3 +1,7 @@
+using Microsoft.Extensions.Configuration;
+using WhiteLagoon_Infrastructure;
+using WhiteLagoon_Infrastructure.Extensions;
+
 namespace WhiteLagoon_Web
 {
     public class Program
@@ -8,6 +12,8 @@ namespace WhiteLagoon_Web
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddDefaultDbContext(builder.Configuration);
 
             var app = builder.Build();
 
