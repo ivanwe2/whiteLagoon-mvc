@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WhiteLagoon_Web", "WhiteLagoon_Web\WhiteLagoon_Web.csproj", "{0441D06B-A9C1-4A11-AAC2-7637CBDEE16B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhiteLagoon_Web", "WhiteLagoon_Web\WhiteLagoon_Web.csproj", "{0441D06B-A9C1-4A11-AAC2-7637CBDEE16B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{99EB6A3F-44CB-48FD-B2B4-047CED3BE495}"
 EndProject
