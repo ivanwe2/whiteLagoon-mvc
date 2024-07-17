@@ -7,11 +7,13 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using WhiteLagoon.Application.Common.Interfaces;
 using WhiteLagoon.Infrastructure.Data;
+using WhiteLagoon.Infrastructure.Repositories.UnitOfWork;
 
 namespace WhiteLagoon.Infrastructure.Extensions
 {
-    public static class DataServiceExtensions
+    public static class InfrastructureServicesExtensions
     {
         public static IServiceCollection AddDefaultDbContext(this IServiceCollection services, IConfiguration configuration)
         {
@@ -19,5 +21,7 @@ namespace WhiteLagoon.Infrastructure.Extensions
                 option.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
             return services;
         }
+        public static IServiceCollection AddUnitOfWork(this IServiceCollection services)
+            => services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 }
