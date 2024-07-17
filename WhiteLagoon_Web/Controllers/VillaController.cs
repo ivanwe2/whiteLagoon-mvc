@@ -9,10 +9,12 @@ namespace WhiteLagoon.Web.Controllers
     public class VillaController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public VillaController(IUnitOfWork unitOfWork)
+        public VillaController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
             _unitOfWork = unitOfWork;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Index()
@@ -29,6 +31,16 @@ namespace WhiteLagoon.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                if(villa.Image is not null)
+                {
+                    string fileName = SaveImageToRootAndReturnName(villa);
+
+                    villa.ImageUrl = @"\images\VillaImage\" + fileName;
+                }
+                else
+                {
+                    villa.ImageUrl = "https://placehold.co/600x400";
+                }
                 _unitOfWork.Villa.Add(villa);
                 _unitOfWork.Save();
 
@@ -37,6 +49,8 @@ namespace WhiteLagoon.Web.Controllers
             }
             return View();
         }
+
+        
 
         public IActionResult Update(int villaId)
         {
@@ -52,6 +66,19 @@ namespace WhiteLagoon.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (villa.Image is not null)
+                {
+                    DeleteImageIfExists(villa);
+
+                    var fileName = SaveImageToRootAndReturnName(villa);
+
+                    villa.ImageUrl = @"\images\VillaImage\" + fileName;
+                }
+                else
+                {
+                    villa.ImageUrl = "https://placehold.co/600x400";
+                }
+
                 _unitOfWork.Villa.Update(villa);
                 _unitOfWork.Save();
 
@@ -75,6 +102,8 @@ namespace WhiteLagoon.Web.Controllers
             var villaFromDb = _unitOfWork.Villa.Get(x => x.Id == villa.Id);
             if (villaFromDb is not null)
             {
+                DeleteImageIfExists(villaFromDb);
+
                 _unitOfWork.Villa.Remove(villaFromDb);
                 _unitOfWork.Save();
 
@@ -82,6 +111,31 @@ namespace WhiteLagoon.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View();
+        }
+        private string SaveImageToRootAndReturnName(Villa villa)
+        {
+            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(villa.Image.FileName);
+            string imagePath = Path.Combine(_webHostEnvironment.WebRootPath, @"images\VillaImage");
+            using (var fileStream = new FileStream(Path.Combine(imagePath, fileName), FileMode.Create))
+            {
+                villa.Image.CopyTo(fileStream);
+            }
+
+            return fileName;
+        }
+
+
+        private void DeleteImageIfExists(Villa? villaFromDb)
+        {
+            if (!string.IsNullOrEmpty(villaFromDb.ImageUrl))
+            {
+                var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, villaFromDb.ImageUrl.TrimStart('\\'));
+
+                if (System.IO.File.Exists(oldImagePath))
+                {
+                    System.IO.File.Delete(oldImagePath);
+                }
+            }
         }
     }
 }
