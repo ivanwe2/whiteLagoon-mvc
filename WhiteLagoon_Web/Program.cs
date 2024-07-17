@@ -15,7 +15,8 @@ namespace WhiteLagoon.Web
 
             builder.Services
                 .AddDefaultDbContext(builder.Configuration)
-                .AddUnitOfWork();
+                .AddUnitOfWork()
+                .AddCustomIdentity();
 
             var app = builder.Build();
 
@@ -32,6 +33,7 @@ namespace WhiteLagoon.Web
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
