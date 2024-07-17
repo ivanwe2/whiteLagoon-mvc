@@ -13,7 +13,9 @@ namespace WhiteLagoon.Web
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddDefaultDbContext(builder.Configuration);
+            builder.Services
+                .AddDefaultDbContext(builder.Configuration)
+                .AddUnitOfWork();
 
             var app = builder.Build();
 

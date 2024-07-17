@@ -6,21 +6,22 @@ using WhiteLagoon.Domain.Entities;
 using WhiteLagoon.Infrastructure.Data;
 using WhiteLagoon.Web.ViewModels;
 using WhiteLagoon.Web.Extensions;
+using WhiteLagoon.Application.Common.Interfaces;
 
 namespace WhiteLagoon.Web.Controllers
 {
     public class VillaNumberController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public VillaNumberController(ApplicationDbContext context)
+        public VillaNumberController(IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Index()
         {
-            var villas = _context.VillaNumbers.Include(u=>u.Villa).ToList();
+            var villas = _unitOfWork.VillaNumber.GetAll(includeProperties: "Villa");
             return View(villas);
         }
         public IActionResult Create()
@@ -32,7 +33,7 @@ namespace WhiteLagoon.Web.Controllers
         [HttpPost]
         public IActionResult Create(VillaNumberVM villaNumberVM)
         {
-            bool isUnique = _context.VillaNumbers.Any(v => v.Villa_Number == villaNumberVM.VillaNumber.Villa_Number);
+            bool isUnique = _unitOfWork.VillaNumber.Any(v => v.Villa_Number == villaNumberVM.VillaNumber.Villa_Number);
 
             villaNumberVM = CreateViewModel(villaNumberVM.VillaNumber);
             
@@ -45,8 +46,8 @@ namespace WhiteLagoon.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.VillaNumbers.Add(villaNumberVM.VillaNumber);
-                _context.SaveChanges();
+                _unitOfWork.VillaNumber.Add(villaNumberVM.VillaNumber);
+                _unitOfWork.Save();
 
                 this.AddSuccessMessageToTempData("Villa Number has been created successfully!");
                 return RedirectToAction(nameof(Index));
@@ -56,7 +57,7 @@ namespace WhiteLagoon.Web.Controllers
 
         public IActionResult Update(int villaNumberId)
         {
-            VillaNumberVM villaNumberVM = CreateViewModel(_context.VillaNumbers.FirstOrDefault(v => v.Villa_Number == villaNumberId));
+            VillaNumberVM villaNumberVM = CreateViewModel(_unitOfWork.VillaNumber.Get(v => v.Villa_Number == villaNumberId));
 
             return View(villaNumberVM);
         }
@@ -65,8 +66,8 @@ namespace WhiteLagoon.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.VillaNumbers.Update(villaNumberVM.VillaNumber);
-                _context.SaveChanges();
+                _unitOfWork.VillaNumber.Update(villaNumberVM.VillaNumber);
+                _unitOfWork.Save();
 
                 this.AddSuccessMessageToTempData("Villa Number has been updated successfully!");
                 return RedirectToAction(nameof(Index));
@@ -85,11 +86,11 @@ namespace WhiteLagoon.Web.Controllers
         [HttpPost]
         public IActionResult Delete(VillaNumberVM villaNumberVM)
         {
-            var villaNumberFromDb = _context.VillaNumbers.FirstOrDefault(x => x.Villa_Number == villaNumberVM.VillaNumber.Villa_Number);
+            var villaNumberFromDb = _unitOfWork.VillaNumber.Get(x => x.Villa_Number == villaNumberVM.VillaNumber.Villa_Number);
             if (villaNumberFromDb is not null)
             {
-                _context.VillaNumbers.Remove(villaNumberFromDb);
-                _context.SaveChanges();
+                _unitOfWork.VillaNumber.Remove(villaNumberFromDb);
+                _unitOfWork.Save();
                 this.AddSuccessMessageToTempData("Villa number has been deleted successfully!");
                 return RedirectToAction(nameof(Index));
             }
@@ -101,7 +102,7 @@ namespace WhiteLagoon.Web.Controllers
         private VillaNumberVM CreateViewModel(VillaNumber? villaNumber = null)
             => new VillaNumberVM()
             {
-                VillaList = _context.Villas.ToList().Select(u => new SelectListItem()
+                VillaList = _unitOfWork.Villa.GetAll().ToList().Select(u => new SelectListItem()
                 {
                     Text = u.Name,
                     Value = u.Id.ToString()
