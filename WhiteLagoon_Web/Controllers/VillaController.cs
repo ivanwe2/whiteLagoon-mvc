@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WhiteLagoon.Domain.Entities;
 using WhiteLagoon.Infrastructure.Data;
+using WhiteLagoon.Web.Extensions;
 
 namespace WhiteLagoon.Web.Controllers
 {
@@ -30,8 +31,8 @@ namespace WhiteLagoon.Web.Controllers
                 _context.Villas.Add(villa);
                 _context.SaveChanges();
 
-                TempData["success"] = "Villa has been created successfully!";
-                return RedirectToAction("Index");
+                this.AddSuccessMessageToTempData("Villa has been created successfully!");
+                return RedirectToAction(nameof(Index));
             }
             return View();
         }
@@ -53,8 +54,8 @@ namespace WhiteLagoon.Web.Controllers
                 _context.Villas.Update(villa);
                 _context.SaveChanges();
 
-                TempData["success"] = "Villa has been updated successfully!";
-                return RedirectToAction("Index");
+                this.AddSuccessMessageToTempData("Villa has been updated successfully!");
+                return RedirectToAction(nameof(Index));
             }
             return View();
         }
@@ -75,8 +76,9 @@ namespace WhiteLagoon.Web.Controllers
             {
                 _context.Villas.Remove(villaFromDb);
                 _context.SaveChanges();
-                TempData["success"] = "Villa has been deleted successfully!";
-                return RedirectToAction("Index");
+
+                this.AddSuccessMessageToTempData("Villa has been deleted successfully!");
+                return RedirectToAction(nameof(Index));
             }
             return View();
         }
