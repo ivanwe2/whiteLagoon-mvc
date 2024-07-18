@@ -6,7 +6,7 @@ using WhiteLagoon.Application.Common.Utility;
 using WhiteLagoon.Domain.Entities;
 using WhiteLagoon.Web.ViewModels;
 
-namespace WhiteLagoon.Web.Views.Shared
+namespace WhiteLagoon.Web.Controllers
 {
     public class AccountController : Controller
     {
@@ -15,16 +15,15 @@ namespace WhiteLagoon.Web.Views.Shared
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AccountController(
+        public AccountController(IUnitOfWork unitOfWork,
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
-            SignInManager<ApplicationUser> signInManager,
-            IUnitOfWork unitOfWork)
+            SignInManager<ApplicationUser> signInManager)
         {
             _roleManager = roleManager;
+            _unitOfWork = unitOfWork;
             _userManager = userManager;
             _signInManager = signInManager;
-            _unitOfWork = unitOfWork;
         }
 
         public IActionResult Login(string returnUrl = null)
@@ -165,3 +164,4 @@ namespace WhiteLagoon.Web.Views.Shared
         }
     }
 }
+

@@ -19,6 +19,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="8.0.7" />
+    <PackageReference Include="Stripe.net" Version="45.3.0" />
   </ItemGroup>
 
   <ItemGroup>

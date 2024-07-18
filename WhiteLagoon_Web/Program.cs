@@ -1,4 +1,5 @@
 using Microsoft.Extensions.Configuration;
+using Stripe;
 using WhiteLagoon.Infrastructure;
 using WhiteLagoon.Infrastructure.Extensions;
 
@@ -19,6 +20,8 @@ namespace WhiteLagoon.Web
                 .AddCustomIdentity();
 
             var app = builder.Build();
+
+            StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
