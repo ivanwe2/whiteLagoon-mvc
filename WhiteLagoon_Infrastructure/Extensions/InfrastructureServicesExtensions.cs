@@ -13,6 +13,7 @@ using WhiteLagoon.Application.Common.Interfaces;
 using WhiteLagoon.Domain.Entities;
 using WhiteLagoon.Infrastructure.Data;
 using WhiteLagoon.Infrastructure.Repositories.UnitOfWork;
+using WhiteLagoon.Application.Common.Interfaces.Data;
 
 namespace WhiteLagoon.Infrastructure.Extensions
 {
@@ -26,6 +27,9 @@ namespace WhiteLagoon.Infrastructure.Extensions
         }
         public static IServiceCollection AddUnitOfWork(this IServiceCollection services)
             => services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        public static IServiceCollection AddDbInitializer(this IServiceCollection services)
+            => services.AddScoped<IDbInitializer, DbInitializer>();
 
         public static IServiceCollection AddCustomIdentity(this IServiceCollection services)
         {

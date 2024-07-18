@@ -1,6 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Stripe;
 using Syncfusion.Licensing;
+using WhiteLagoon.Application.Extensions;
 using WhiteLagoon.Infrastructure;
 using WhiteLagoon.Infrastructure.Extensions;
 
@@ -18,7 +19,9 @@ namespace WhiteLagoon.Web
             builder.Services
                 .AddDefaultDbContext(builder.Configuration)
                 .AddUnitOfWork()
-                .AddCustomIdentity();
+                .AddDbInitializer()
+                .AddCustomIdentity()
+                .AddApplicationLayerServices();
 
             var app = builder.Build();
 
