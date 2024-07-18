@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -16,12 +18,23 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="8.0.7" />
+    <PackageReference Include="Stripe.net" Version="45.3.0" />
+    <PackageReference Include="Syncfusion.DocIO.Net.Core" Version="26.1.42" />
+    <PackageReference Include="Syncfusion.DocIORenderer.Net.Core" Version="26.1.42" />
+    <PackageReference Include="Syncfusion.Licensing" Version="26.1.42" />
+    <PackageReference Include="Syncfusion.Pdf.Net.Core" Version="26.1.42" />
+    <PackageReference Include="Syncfusion.Presentation.Net.Core" Version="26.1.42" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\WhiteLagoon_Application\WhiteLagoon.Application.csproj" />
     <ProjectReference Include="..\WhiteLagoon_Domain\WhiteLagoon.Domain.csproj" />
     <ProjectReference Include="..\WhiteLagoon_Infrastructure\WhiteLagoon.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\images\VillaImage\" />
   </ItemGroup>
 
 </Project>

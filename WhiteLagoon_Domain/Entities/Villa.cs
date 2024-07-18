@@ -20,8 +20,10 @@ namespace WhiteLagoon.Domain.Entities
         [Range(10, 10000)]
         public double Price { get; set; }
         public int Sqft { get; set; }
+
         [Range(1, 10)]
         public int Occupancy { get; set; }
+
         [NotMapped]
         public IFormFile? Image { get; set; }
         [Display(Name = "Image Url")]
@@ -29,8 +31,8 @@ namespace WhiteLagoon.Domain.Entities
         public DateTime? CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
 
-        //[ValidateNever]
-        //public IEnumerable<Amenity> VillaAmenity { get; set; }
+        [ValidateNever]
+        public IEnumerable<Amenity> VillaAmenity { get; set; }
 
         [NotMapped]
         public bool IsAvailable { get; set; } = true;
