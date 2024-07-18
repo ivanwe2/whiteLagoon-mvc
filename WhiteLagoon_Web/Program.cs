@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Stripe;
+using Syncfusion.Licensing;
 using WhiteLagoon.Infrastructure;
 using WhiteLagoon.Infrastructure.Extensions;
 
@@ -22,6 +23,7 @@ namespace WhiteLagoon.Web
             var app = builder.Build();
 
             StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
+            SyncfusionLicenseProvider.RegisterLicense(builder.Configuration.GetSection("Syncfusion:LicenseKey").Get<string>());
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
