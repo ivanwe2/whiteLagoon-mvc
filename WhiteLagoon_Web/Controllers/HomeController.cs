@@ -7,32 +7,34 @@ using WhiteLagoon.Application.Common.Interfaces;
 using WhiteLagoon.Web.Models;
 using WhiteLagoon.Web.ViewModels;
 using Syncfusion.Presentation;
+using WhiteLagoon.Application.Services.Interface;
+using WhiteLagoon.Application.Services.Implementation;
 
 namespace WhiteLagoon.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IUnitOfWork _unitOfWork;
+
+        private readonly IVillaService _villaService;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
+        public HomeController(IWebHostEnvironment webHostEnvironment, IUnitOfWork unitOfWork)
         {
-            _logger = logger;
-            _unitOfWork = unitOfWork;
+            _villaService = new VillaService(unitOfWork,webHostEnvironment.WebRootPath);
             _webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Index()
         {
-            var homeVM = new HomeVM() 
-            { 
-                VillaList = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity"),
+            HomeVM homeVM = new()
+            {
+                VillaList = _villaService.GetAllVillas(),
                 Nights = 1,
                 CheckInDate = DateOnly.FromDateTime(DateTime.Now),
             };
             return View(homeVM);
         }
+
         [HttpPost]
         public IActionResult GetVillasByDate(int nights, DateOnly checkInDate)
         {
@@ -40,7 +42,7 @@ namespace WhiteLagoon.Web.Controllers
             HomeVM homeVM = new()
             {
                 CheckInDate = checkInDate,
-                VillaList = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity"), //_villaService.GetVillasAvailabilityByDate(nights, checkInDate),
+                VillaList = _villaService.GetVillasAvailabilityByDate(nights, checkInDate),
                 Nights = nights
             };
 
@@ -50,7 +52,7 @@ namespace WhiteLagoon.Web.Controllers
         [HttpPost]
         public IActionResult GeneratePPTExport(int id)
         {
-            var villa = _unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity").FirstOrDefault(x => x.Id == id);
+            var villa = _villaService.GetVillaById(id);
             if (villa is null)
             {
                 return RedirectToAction(nameof(Error));
@@ -61,6 +63,7 @@ namespace WhiteLagoon.Web.Controllers
 
 
             using IPresentation presentation = Presentation.Open(filePath);
+
             ISlide slide = presentation.Slides[0];
 
 
@@ -92,6 +95,7 @@ namespace WhiteLagoon.Web.Controllers
             {
                 shape.TextBody.Text = string.Format("USD {0}/night", villa.Price.ToString("C"));
             }
+
 
             shape = slide.Shapes.FirstOrDefault(u => u.ShapeName == "txtVillaAmenitiesHeading") as IShape;
             if (shape is not null)
@@ -136,6 +140,8 @@ namespace WhiteLagoon.Web.Controllers
 
             }
 
+
+
             MemoryStream memoryStream = new();
             presentation.Save(memoryStream);
             memoryStream.Position = 0;
@@ -143,6 +149,7 @@ namespace WhiteLagoon.Web.Controllers
 
 
         }
+
         public IActionResult Privacy()
         {
             return View();

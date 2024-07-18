@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="SendGrid" Version="9.29.3" />
+    <PackageReference Include="Stripe.net" Version="45.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\WhiteLagoon_Domain\WhiteLagoon.Domain.csproj" />
   </ItemGroup>
 
